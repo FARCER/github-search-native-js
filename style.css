@@ -1,0 +1,53 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+.app {
+    width: 800px;
+    margin: 0 auto;
+}
+.title {
+    text-align: center;
+}
+
+.search-line {
+    flex-direction: column;
+    display: flex;
+}
+.search-input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: 1;
+    margin-bottom: 10px;
+    height: 40px;
+    line-height: 20px;
+    padding: 8px 15px;
+}
+
+.users {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+
+.user {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    list-style: none;
+    margin: 10px;
+    padding: 0;
+    text-align: center;
+    width: calc(100% / 5 - 20px);
+}
+
+.user-photo {
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.user-name {
+    font-weight: 600;
+}
