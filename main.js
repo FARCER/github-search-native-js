@@ -4,10 +4,12 @@ class Search {
         return 20;
     };
 
+    // Получаем текущую страницу поиска
     get currentPageNumber() {
         return this.currentPage;
     }
 
+    // Устанавливаем текущую страницу поиска
     setCurrentPageValue(pageNumber) {
         this.currentPage = pageNumber;
     }
@@ -21,32 +23,30 @@ class Search {
         this.currentPage = 1;
     }
 
-    // Выполняем поиск пользователей
+    // Выполняем поиск пользователей при каждом вводе символа в поисковую строку
     searchUsers() {
         this.setCurrentPageValue(1);
         if (this.view.searchInput.value) {
-            this.api.loadUsers(this.view.searchInput.value, this.currentPageNumber).then(response => {
-                this.updateUsers(response)
-            })
+            this.api.loadUsers(this.view.searchInput.value, this.currentPageNumber).then(response => this.updateUsers(response))
         } else {
             this.view.clearUsers();
             this.view.setUserCounter('');
         }
     }
 
-
+    // Подгружаем пользователей при нажатии на кнопку "Загрузить еще"
     loadMoreUsers() {
         this.setCurrentPageValue(this.currentPage + 1);
-        this.api.loadUsers(this.view.searchInput.value, this.currentPageNumber).then(response => {
-            this.updateUsers(response, true)
-        })
+        this.api.loadUsers(this.view.searchInput.value, this.currentPageNumber).then(response => this.updateUsers(response, true))
     }
 
+    // Обновляем текущее состояние пользователей
     updateUsers(response, isUpdate = false) {
         let users;
         let usersCount;
         if (response.ok) {
             if (!isUpdate) {
+                // Если новый поиск а не подгрузка, то очищаем ранее найденных пользователей
                 this.view.clearUsers();
             }
             response.json().then((res) => {
@@ -82,6 +82,7 @@ class LOG {
     constructor() {
     }
 
+    // Сообщение с числом пользователей
     counterMessage(usersCount) {
         return (usersCount > 0) ? `Найдено ${usersCount} пользователей` : 'По вашему запросу пользователей не найдено';
     }
@@ -91,6 +92,7 @@ class API {
     constructor() {
     }
 
+    // Загрузка пользователей
     async loadUsers(searchValue, page) {
         return await fetch(`https://api.github.com/search/users?q=${searchValue}&per_page=${Search.USER_PER_PAGE}&page=${page}`);
     }
@@ -101,17 +103,21 @@ class VIEW {
     constructor() {
         this.app = document.getElementById('app');
 
+        // Заголовок
         this.title = this.createElement('h1', 'title');
         this.title.textContent = 'Github Search Users';
 
+        // Список пользователей
         this.usersList = this.createElement('ul', 'users');
 
+        // Поле поиска
         this.searchLine = this.createElement('div', 'search-line');
         this.searchInput = this.createElement('input', 'search-input');
         this.usersCounter = this.createElement('span', 'counter');
         this.searchLine.append(this.searchInput);
         this.searchLine.append(this.usersCounter);
 
+        // Кнопка "Загрузить еще"
         this.loadMore = this.createElement('button', 'brn');
         this.loadMore.textContent = 'Загрузить еще';
         this.loadMore.style.display = 'none';
@@ -144,17 +150,14 @@ class VIEW {
         this.usersList.innerHTML = '';
     }
 
+    // Устанавливаем сообщение о количестве найденных пользователей
     setUserCounter(message) {
         this.usersCounter.textContent = message
     }
 
     //Показываем или скрываем кнопку "Загрузить еще"
     toggleStateLoadMoreButton(show) {
-        if (show) {
-            this.loadMore.style.display = 'block'
-        } else {
-            this.loadMore.style.display = 'none'
-        }
+        this.loadMore.style.display = show ? 'block' : 'none';
     }
 }
 
