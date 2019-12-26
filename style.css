@@ -1,18 +1,13 @@
-*, *::before, *::after {
-    box-sizing: border-box;
-}
+*, *::before, *::after { box-sizing: border-box; }
 
-.app {
-    width: 800px;
-    margin: 0 auto;
-}
-.title {
-    text-align: center;
-}
+.title { text-align: center; }
+.main { display: flex; }
 
 .search-line {
     flex-direction: column;
     display: flex;
+    width: 50%;
+    margin: 0 auto;
 }
 .search-input {
     border: 1px solid #ccc;
@@ -27,11 +22,17 @@
 .users {
     display: flex;
     flex-wrap: wrap;
-    margin: 0;
     padding: 0;
+    width: 50%;
+    margin: 0 auto;
 }
 
 .user {
+    padding-left: 100px;
+    width: 50%;
+}
+
+.user-prev {
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -43,11 +44,9 @@
     width: calc(100% / 5 - 20px);
 }
 
-.user-photo {
+.user-prev-photo {
     max-width: 100%;
     margin-bottom: 10px;
 }
 
-.user-name {
-    font-weight: 600;
-}
+.user-prev-name { font-weight: 600; }

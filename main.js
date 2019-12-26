@@ -1,8 +1,8 @@
-class Search {
+import {LOG} from './module/log.js'
+import {API} from './module/api.js'
+import {VIEW} from './module/view.js'
 
-    static get USER_PER_PAGE() {
-        return 20;
-    };
+class Search {
 
     // Получаем текущую страницу поиска
     get currentPageNumber() {
@@ -77,88 +77,4 @@ class Search {
     }
 }
 
-
-class LOG {
-    constructor() {
-    }
-
-    // Сообщение с числом пользователей
-    counterMessage(usersCount) {
-        return (usersCount > 0) ? `Найдено ${usersCount} пользователей` : 'По вашему запросу пользователей не найдено';
-    }
-}
-
-class API {
-    constructor() {
-    }
-
-    // Загрузка пользователей
-    async loadUsers(searchValue, page) {
-        return await fetch(`https://api.github.com/search/users?q=${searchValue}&per_page=${Search.USER_PER_PAGE}&page=${page}`);
-    }
-
-}
-
-class VIEW {
-    constructor() {
-        this.app = document.getElementById('app');
-
-        // Заголовок
-        this.title = this.createElement('h1', 'title');
-        this.title.textContent = 'Github Search Users';
-
-        // Список пользователей
-        this.usersList = this.createElement('ul', 'users');
-
-        // Поле поиска
-        this.searchLine = this.createElement('div', 'search-line');
-        this.searchInput = this.createElement('input', 'search-input');
-        this.usersCounter = this.createElement('span', 'counter');
-        this.searchLine.append(this.searchInput);
-        this.searchLine.append(this.usersCounter);
-
-        // Кнопка "Загрузить еще"
-        this.loadMore = this.createElement('button', 'brn');
-        this.loadMore.textContent = 'Загрузить еще';
-        this.loadMore.style.display = 'none';
-
-        this.app.append(this.title);
-        this.app.append(this.searchLine);
-        this.app.append(this.usersList);
-        this.app.append(this.loadMore);
-    }
-
-    // Функция для создания элемента
-    createElement(elementName, className) {
-        const element = document.createElement(elementName);
-        if (className) {
-            element.classList.add(className)
-        }
-        return element;
-    }
-
-    // Создаем каждого найденного пользователя
-    createUser(userData) {
-        const user = this.createElement('li', 'user');
-        user.innerHTML = `<img class="user-photo" src="${userData.avatar_url}" alt="${userData.login}_photo">
-                          <span class="user-name">${userData.login}</span>`;
-        this.usersList.append(user);
-    }
-
-    // Очистка найденных пользователей
-    clearUsers() {
-        this.usersList.innerHTML = '';
-    }
-
-    // Устанавливаем сообщение о количестве найденных пользователей
-    setUserCounter(message) {
-        this.usersCounter.textContent = message
-    }
-
-    //Показываем или скрываем кнопку "Загрузить еще"
-    toggleStateLoadMoreButton(show) {
-        this.loadMore.style.display = show ? 'block' : 'none';
-    }
-}
-
-new Search(new LOG(), new API(), new VIEW());
+new Search(new LOG(), new API(), new VIEW(new API()));
