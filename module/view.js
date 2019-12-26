@@ -1,13 +1,14 @@
 export class VIEW {
     constructor(api) {
-        this.app = document.getElementById('app');
-
         this.api = api;
+
+        this.app = document.getElementById('app');
 
         // Заголовок
         this.title = this.createElement('h1', 'title');
         this.title.textContent = 'Github Search Users';
 
+        // Основной блок
         this.mainContent = this.createElement('div', 'main');
 
         // Список пользователей
@@ -24,7 +25,6 @@ export class VIEW {
         this.loadMore = this.createElement('button', 'brn');
         this.loadMore.textContent = 'Загрузить еще';
         this.loadMore.style.display = 'none';
-
 
         //Добавление всех блоков в приложение
         this.app.append(this.title);
@@ -55,8 +55,8 @@ export class VIEW {
     showUser(data) {
         const user = this.createElement('div', 'user');
         const userHtml = this.mainContent.querySelector('.user');
-        // const userFollowing = this.getUserFollowing(data.login);
-        // console.log(userFollowing);
+        const userFollowing = this.api.loadUserFollowing(data.login);
+        console.log(userFollowing);
         user.innerHTML = `<img src="${data.avatar_url}">
                           <h2>${data.login}</h2>`;
         if (userHtml) {
@@ -66,14 +66,15 @@ export class VIEW {
     }
 
     getUserFollowing(userName) {
+        let result;
         this.api.loadUserFollowing(userName).then(response => {
             if (response.ok) {
                 response.json().then((res => {
-                    console.log(res);
-                    return res;
+                    result = res;
+                    return result;
                 }));
             }
-        })
+        });
     }
 
     // Очистка найденных пользователей
