@@ -11,29 +11,15 @@ export class API {
         return await fetch(`${URL}search/users?q=${searchValue}&per_page=${USER_PER_PAGE}&page=${page}`);
     }
 
-    // Получаем подписчиков пользователя
-    loadUserFollowing(user) {
-        return this.getData(`${URL}users/${user}/following`);
+    //Получаем данные выбранного пользователя
+    async loadUserData(user) {
+        const urls = [
+            `${URL}users/${user}/following`,
+            `${URL}users/${user}/followers`,
+            `${URL}users/${user}/repos`,
+        ];
+        const requests = urls.map(url => fetch(url));
+        return Promise.all(requests)
+            .then(responses => Promise.all(responses.map(r => r.json())))
     }
-
-    // Получаем пользователей, на который подписан
-    async loadUserFollowers(user) {
-        return await fetch(`${URL}users/${user}/followers`);
-    }
-
-    // Получаем список репозиториев
-    async loadUserRepos(user) {
-        return await fetch(`${URL}users/${user}/repos`);
-    }
-
-    async getData(url) {
-        return await fetch(url).then(res => {
-            if (res.ok) {
-                res.json().then(res => {
-                    console.log(res);
-                });
-            }
-        })
-    }
-
 }

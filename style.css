@@ -1,7 +1,11 @@
 *, *::before, *::after { box-sizing: border-box; }
 
+.app { padding: 25px; }
+
 .title { text-align: center; }
-.main { display: flex; }
+.main {
+    align-items: flex-start;
+    display: flex; }
 
 .search-line {
     flex-direction: column;
@@ -18,13 +22,16 @@
     line-height: 20px;
     padding: 8px 15px;
 }
-
-.users {
-    display: flex;
-    flex-wrap: wrap;
+.users-wrapper {
     padding: 0;
     width: 50%;
     margin: 0 auto;
+}
+
+.users {
+    align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .user {
@@ -50,3 +57,26 @@
 }
 
 .user-prev-name { font-weight: 600; }
+
+.user-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+}
+.user-list-item {
+    margin: 5px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.btn {
+    background-color: #ccc;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 40px;
+    line-height: 40px;
+    margin: 50px auto 0;
+    width: 150px;
+}
