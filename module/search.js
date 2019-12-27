@@ -62,13 +62,18 @@ export class Search {
     }
 
     // Задержка ввода данных для отправки запроса
-    debounce(f, ms) {
-        let isCooldown = false;
-        return function () {
-            if (isCooldown) return;
-            f.apply(this, arguments);
-            isCooldown = true;
-            setTimeout(() => isCooldown = false, ms);
+    debounce(func, wait, immediate) {
+        let timeout;
+        return function() {
+            const context = this, args = arguments;
+            const later = function() {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            const callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
         };
     }
 }

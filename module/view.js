@@ -54,6 +54,7 @@ export class VIEW {
         this.usersList.append(user);
     }
 
+    // Показываем данные выбранного пользователя
     showUser(userData) {
         const user = this.createElement('div', 'user');
         const userHtml = this.mainContent.querySelector('.user');
@@ -76,6 +77,7 @@ export class VIEW {
             });
     }
 
+    // Получаем html списка в данных пользователя
     getUserListHTML(data, title) {
         let blockWrapper;
         let block;
@@ -93,7 +95,7 @@ export class VIEW {
             userList = this.createElement('ul', 'user-list');
             data.forEach(user => {
                 userData = this.createElement('li', 'user-list-item');
-                userData.innerHTML = `<a href="${user.html_url}" class="user-list-link">${user.login ? user.login : user.name}</a>`;
+                userData.innerHTML = `<a href="${user.html_url}" target="_blank" class="user-list-link">${user.login ? user.login : user.name}</a>`;
                 userList.append(userData);
             });
 
@@ -108,11 +110,6 @@ export class VIEW {
     // Очистка найденных пользователей
     clearUsers() {
         this.usersList.innerHTML = '';
-    }
-
-    createUserDataList(user) {
-        console.log(1);
-        return `<div>1</div>`;
     }
 
     // Устанавливаем сообщение о количестве найденных пользователей
