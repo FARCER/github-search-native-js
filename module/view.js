@@ -12,7 +12,7 @@ export class VIEW {
         this.mainContent = this.createElement('div', 'main');
 
         // Список пользователей
-        this.usersListWrapper = this.createElement('div','users-wrapper');
+        this.usersListWrapper = this.createElement('div', 'users-wrapper');
         this.usersList = this.createElement('ul', 'users');
         this.usersListWrapper.append(this.usersList);
 
@@ -79,32 +79,22 @@ export class VIEW {
 
     // Получаем html списка в данных пользователя
     getUserListHTML(data, title) {
-        let blockWrapper;
-        let block;
-        let titleBlock;
-        let userList;
-        let userData;
-        if (data.length) {
-            blockWrapper = this.createElement('div',);
+        return data.length ? `<div class="user-block">
+                                  <h3 class="user-block-title">${title}</h3>
+                                  <ul class="user-list">${this.templateItem(data)}</ul>
+                              </div>`
+            : '';
+    }
 
-            block = this.createElement('div', 'user-block');
-
-            titleBlock = this.createElement('h3', 'user-block-title');
-            titleBlock.textContent = title;
-
-            userList = this.createElement('ul', 'user-list');
-            data.forEach(user => {
-                userData = this.createElement('li', 'user-list-item');
-                userData.innerHTML = `<a href="${user.html_url}" target="_blank" class="user-list-link">${user.login ? user.login : user.name}</a>`;
-                userList.append(userData);
-            });
-
-            block.append(titleBlock);
-            block.append(userList);
-            blockWrapper.append(block);
-            return blockWrapper.innerHTML;
-        }
-        return '';
+    // Строим каждый элемент списка
+    templateItem(data) {
+        let userItem = '';
+        data.forEach(user => {
+            userItem += `<li class="user-list-item">
+                            <a href="${user.html_url}" class="user-list-link">${user.login ? user.login : user.name}</a>
+                          </li>`;
+        });
+        return userItem
     }
 
     // Очистка найденных пользователей
